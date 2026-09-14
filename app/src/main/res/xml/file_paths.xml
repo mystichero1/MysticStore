@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Maps to context.getExternalFilesDir(null)/Download, where DownloadManager
+         writes APKs via setDestinationInExternalFilesDir(...). -->
+    <external-files-path name="downloaded_apks" path="Download/" />
+</paths>

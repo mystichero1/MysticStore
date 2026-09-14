@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Mystic Store</string>
+    <string name="loading">Loading catalog…</string>
+    <string name="empty_catalog">No apps in the catalog yet.</string>
+    <string name="error_loading">Couldn\'t load the catalog.\nCheck your connection and try again.</string>
+    <string name="open">Open</string>
+    <string name="install">Install</string>
+    <string name="update">Update</string>
+    <string name="downloading">Downloading…</string>
+    <string name="version_x">%1$s • v%2$s</string>
+    <string name="installed_version">Installed: v%1$s</string>
+</resources>
