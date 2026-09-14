@@ -6,6 +6,7 @@
       "versionName": "1.0",
       "apkUrl": "https://github.com/mystichero1/SystemDebloater/releases/download/v1.0/SystemDebloater-universal.apk",
       "iconUrl": "https://github.com/mystichero1/MYAPP/raw/main/icon.png"
+      "repo": "https://raw.githubusercontent.com/mystichero1/SystemDebloater/refs/heads/main/README.md",
     },
     {
       "name": "Freyja",
@@ -13,6 +14,7 @@
       "versionName": "1.0",
       "apkUrl": "https://github.com/mystichero1/Freyja/releases/download/v1.0/Freyja-v1.0-release.apk",
       "iconUrl": "https://raw.githubusercontent.com/mystichero1/Freyja/refs/heads/main/images/app-icon.jpg"
+      "repo": "https://raw.githubusercontent.com/mystichero1/Freyja/refs/heads/main/README.md",
     }
   ]
 }
