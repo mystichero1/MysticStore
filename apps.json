@@ -2,19 +2,17 @@
   "apps": [
     {
       "name": "SystemDebloater",
-      "package": "com.example.myapp",
-      "versionCode": 3,
-      "versionName": "1.3",
-      "apkUrl": "https://github.com/mystichero1/MYAPP/releases/download/v1.3/app.apk",
+      "package": "com.mystic.systemdebloater",
+      "versionName": "1.0",
+      "apkUrl": "https://github.com/mystichero1/SystemDebloater/releases/download/v1.0/SystemDebloater-universal.apk",
       "iconUrl": "https://github.com/mystichero1/MYAPP/raw/main/icon.png"
     },
     {
-      "name": "My Second App",
-      "package": "com.example.myapp2",
-      "versionCode": 1,
+      "name": "Freyja",
+      "package": "com.mystic.freyja",
       "versionName": "1.0",
-      "apkUrl": "https://github.com/mystichero1/MYAPP2/releases/download/v1.0/app.apk",
-      "iconUrl": "https://github.com/mystichero1/MYAPP2/raw/main/icon.png"
+      "apkUrl": "https://github.com/mystichero1/Freyja/releases/download/v1.0/Freyja-v1.0-release.apk",
+      "iconUrl": "https://raw.githubusercontent.com/mystichero1/Freyja/refs/heads/main/images/app-icon.jpg"
     }
   ]
 }
