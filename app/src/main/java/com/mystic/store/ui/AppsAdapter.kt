@@ -1,8 +1,5 @@
 package com.mystic.store.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.LruCache
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,26 +7,19 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.mystic.store.R
 import com.mystic.store.data.AppItem
 import com.mystic.store.data.AppState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.HttpURLConnection
-import java.net.URL
 
 class AppsAdapter(
     private val scope: CoroutineScope,
+    private val onItemClick: (AppItem) -> Unit,
     private val onActionClick: (AppItem) -> Unit
 ) : RecyclerView.Adapter<AppsAdapter.AppViewHolder>() {
 
     private val items = mutableListOf<AppItem>()
-
-    private val iconCache = object : LruCache<String, Bitmap>(8 * 1024 * 1024) {
-        override fun sizeOf(key: String, value: Bitmap): Int = value.byteCount
-    }
 
     fun submit(list: List<AppItem>) {
         items.clear()
@@ -50,9 +40,11 @@ class AppsAdapter(
 
     inner class AppViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        private val card: MaterialCardView = itemView as MaterialCardView
         private val iconView: ImageView = itemView.findViewById(R.id.iconView)
         private val nameText: TextView = itemView.findViewById(R.id.nameText)
         private val metaText: TextView = itemView.findViewById(R.id.metaText)
+        private val descriptionText: TextView = itemView.findViewById(R.id.descriptionText)
         private val actionButton: Button = itemView.findViewById(R.id.actionButton)
 
         fun bind(item: AppItem) {
@@ -63,7 +55,8 @@ class AppsAdapter(
                 info.packageName,
                 info.versionName
             )
-            loadIcon(info.iconUrl, iconView)
+            descriptionText.text = info.description.orEmpty()
+            ImageLoader.load(info.iconUrl, iconView, scope)
 
             val res = actionButton.resources
             actionButton.isEnabled = item.state != AppState.DOWNLOADING
@@ -73,35 +66,9 @@ class AppsAdapter(
                 AppState.OPEN -> res.getString(R.string.open)
                 AppState.DOWNLOADING -> res.getString(R.string.downloading)
             }
+
+            card.setOnClickListener { onItemClick(item) }
             actionButton.setOnClickListener { onActionClick(item) }
-        }
-    }
-
-    private fun loadIcon(url: String?, imageView: ImageView) {
-        imageView.setImageResource(R.drawable.ic_app_placeholder)
-        if (url == null) return
-
-        iconCache.get(url)?.let {
-            imageView.setImageBitmap(it)
-            return
-        }
-        scope.launch {
-            fetchBitmap(url)?.let { bitmap ->
-                iconCache.put(url, bitmap)
-                imageView.setImageBitmap(bitmap)
-            }
-        }
-    }
-
-    private suspend fun fetchBitmap(url: String): Bitmap? = withContext(Dispatchers.IO) {
-        try {
-            val connection = URL(url).openConnection() as HttpURLConnection
-            connection.connectTimeout = 10_000
-            connection.readTimeout = 10_000
-            connection.connect()
-            connection.inputStream.use { BitmapFactory.decodeStream(it) }
-        } catch (_: Exception) {
-            null
         }
     }
 }

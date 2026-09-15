@@ -8,6 +8,7 @@ import java.net.URL
 
 object AppRepository {
 
+    /** Downloads the catalog JSON and parses it. */
     suspend fun fetchCatalog(catalogUrl: String): List<AppInfo> = withContext(Dispatchers.IO) {
         val connection = URL(catalogUrl).openConnection() as HttpURLConnection
         try {

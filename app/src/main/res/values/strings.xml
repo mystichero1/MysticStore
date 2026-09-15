@@ -8,5 +8,12 @@
     <string name="update">Update</string>
     <string name="downloading">Downloading…</string>
     <string name="version_x">%1$s • v%2$s</string>
-    <string name="installed_version">Installed: v%1$s</string>
+    <string name="search_hint">Search apps</string>
+    <string name="no_results">No apps match your search.</string>
+    <string name="no_description">No description provided.</string>
+    <string name="package_x">Package: %1$s</string>
+    <string name="version_x_detail">Version %1$s</string>
+    <string name="tap_for_details">Info</string>
+    <string name="readme_heading">About</string>
+    <string name="readme_error">Couldn\'t load the README for this app.</string>
 </resources>

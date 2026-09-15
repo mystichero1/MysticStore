@@ -13,10 +13,13 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+import com.mystic.store.data.AppItem
 import com.mystic.store.ui.AppsAdapter
 import kotlinx.coroutines.launch
 
@@ -49,15 +52,27 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         emptyView = findViewById(R.id.emptyView)
 
-        adapter = AppsAdapter(lifecycleScope) { item -> viewModel.onAction(item) }
+        adapter = AppsAdapter(
+            scope = lifecycleScope,
+            onItemClick = ::openDetail,
+            onActionClick = { item -> viewModel.onAction(item) }
+        )
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+
+        findViewById<TextInputEditText>(R.id.searchInput).doAfterTextChanged { text ->
+            viewModel.onSearchQueryChanged(text?.toString().orEmpty())
+        }
 
         lifecycleScope.launch {
             viewModel.uiState.collect { state -> render(state) }
         }
 
         viewModel.refresh()
+    }
+
+    private fun openDetail(item: AppItem) {
+        startActivity(AppDetailActivity.createIntent(this, item.info))
     }
 
     override fun onStart() {
@@ -113,7 +128,10 @@ class MainActivity : AppCompatActivity() {
                 adapter.submit(state.items)
                 if (state.items.isEmpty()) {
                     emptyView.visibility = View.VISIBLE
-                    emptyView.setText(R.string.empty_catalog)
+                    emptyView.setText(
+                        if (viewModel.hasActiveSearch()) R.string.no_results
+                        else R.string.empty_catalog
+                    )
                     recyclerView.visibility = View.GONE
                 } else {
                     emptyView.visibility = View.GONE

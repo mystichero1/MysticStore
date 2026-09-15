@@ -18,7 +18,7 @@ class AppInstaller(private val context: Context) {
     fun download(info: AppInfo): Long {
         val request = DownloadManager.Request(Uri.parse(info.apkUrl)).apply {
             setTitle(info.name)
-            setDescription("${info.versionName} (${info.versionCode})")
+            setDescription(info.versionName)
             setMimeType(MIME_APK)
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             setDestinationInExternalFilesDir(
@@ -33,7 +33,7 @@ class AppInstaller(private val context: Context) {
     /** The app-specific Download directory where DownloadManager writes the APK. */
     fun destinationFile(info: AppInfo): File {
         val baseDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
-        return File(baseDir, safeFileName(info.name) + "-" + info.versionCode + ".apk")
+        return File(baseDir, safeFileName(info.name) + "-" + safeFileName(info.versionName) + ".apk")
     }
 
     /** Queries DownloadManager to confirm a finished download actually succeeded. */
